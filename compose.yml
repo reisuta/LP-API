@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "13309:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/conf.d/my.cnf
+  app:
+    build: .
+    container_name: lp-api
+    ports:
+      - "8086:8080"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    command: ["go", "run", "main.go"]
+
+volumes:
+  db_data:
