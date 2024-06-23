@@ -23,7 +23,7 @@ func GetDiagnosis(c echo.Context) error {
 	}
 
 	// Get the questions
-	questionsRows, err := config.DB.Query("SELECT id, title, weighting, is_valid, diagnosis_id FROM diagnoses_questions WHERE diagnosis_id = ?", diagnosisID)
+	questionsRows, err := config.DB.Query("SELECT id, title, weighting, type, is_valid, diagnosis_id FROM diagnoses_questions WHERE diagnosis_id = ?", diagnosisID)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching questions", "error": err.Error()})
 	}
@@ -32,7 +32,7 @@ func GetDiagnosis(c echo.Context) error {
 	var questions []models.DiagnosisQuestion
 	for questionsRows.Next() {
 		var question models.DiagnosisQuestion
-		err := questionsRows.Scan(&question.ID, &question.Title, &question.Weighting, &question.IsValid, &question.DiagnosisID)
+		err := questionsRows.Scan(&question.ID, &question.Title, &question.Weighting, &question.Type, &question.IsValid, &question.DiagnosisID)
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error scanning question", "error": err.Error()})
 		}

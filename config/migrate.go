@@ -22,6 +22,7 @@ func MigrateDB() {
 			id INT AUTO_INCREMENT PRIMARY KEY,
 			title VARCHAR(255) NOT NULL,
 			weighting INT,
+			type VARCHAR(255) NOT NULL,
 			is_valid BOOLEAN,
 			diagnosis_id INT,
 			FOREIGN KEY (diagnosis_id) REFERENCES diagnoses(id) ON DELETE CASCADE

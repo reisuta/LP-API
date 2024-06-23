@@ -37,17 +37,18 @@ func SeedData() {
 	questions := []struct {
 		Title       string
 		Weighting   int
+    Type        string
 		IsValid     bool
 		DiagnosisID int
 	}{
     // 文豪性格診断だけ作る
-		{"お酒を飲む頻度とそのスタイルを教えてください", 10, true, diagnosisIDs[0]},
-		{"どの思想に共感しますか？", 20, true, diagnosisIDs[0]},
-		{"世間で言われるところの「常識」についてどう思いますか？", 15, true, diagnosisIDs[0]},
+		{"お酒を飲む頻度とそのスタイルを教えてください", 10, "radio", true, diagnosisIDs[0]},
+		{"どの思想に共感しますか？", 20, "radio", true, diagnosisIDs[0]},
+		{"世間で言われるところの「常識」についてどう思いますか？", 15, "radio", true, diagnosisIDs[0]},
 	}
 
 	for _, q := range questions {
-		res, err := tx.Exec(`INSERT INTO diagnoses_questions (title, weighting, is_valid, diagnosis_id) VALUES (?, ?, ?, ?)`, q.Title, q.Weighting, q.IsValid, q.DiagnosisID)
+		res, err := tx.Exec(`INSERT INTO diagnoses_questions (title, weighting, type, is_valid, diagnosis_id) VALUES (?, ?, ?, ?, ?)`, q.Title, q.Weighting, q.Type, q.IsValid, q.DiagnosisID)
 		if err != nil {
 			log.Fatalf("Error seeding data: %s\n", err.Error())
 		}

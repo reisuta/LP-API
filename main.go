@@ -20,7 +20,7 @@ func main() {
 
 	e := echo.New()
 
-	e.POST("/save", handlers.SaveData)
+  e.POST("/save", handlers.SaveData)
   e.GET("/diagnosis/:id", handlers.GetDiagnosis)
 
 	e.Logger.Fatal(e.Start(":8080"))
