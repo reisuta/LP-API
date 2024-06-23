@@ -16,6 +16,7 @@ func main() {
 
 	config.InitDB()
   config.MigrateDB()
+  config.SeedData()
 
 	e := echo.New()
 
