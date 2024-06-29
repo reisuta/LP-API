@@ -24,7 +24,6 @@ func main() {
 		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 	}))
 
-  e.POST("/save", handlers.SaveData)
   e.GET("/diagnosis/:id", handlers.GetDiagnosis)
   e.POST("/diagnosis_answer", handlers.SaveDiagnosisAnswer)
 

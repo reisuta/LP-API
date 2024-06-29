@@ -28,5 +28,5 @@ func SaveDiagnosisAnswer(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error saving diagnosis answer", "error": err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, map[string]string{"message": "Diagnosis answer saved successfully"})
+  return c.JSON(http.StatusOK, map[string]interface{}{"message": "Diagnosis answer saved successfully", "score": req.Point})
 }
