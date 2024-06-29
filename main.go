@@ -16,8 +16,6 @@ func main() {
 	}
 
 	config.InitDB()
-  config.MigrateDB()
-  config.SeedData()
 
 	e := echo.New()
 
@@ -28,6 +26,7 @@ func main() {
 
   e.POST("/save", handlers.SaveData)
   e.GET("/diagnosis/:id", handlers.GetDiagnosis)
+  e.POST("/diagnosis_answer", handlers.SaveDiagnosisAnswer)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

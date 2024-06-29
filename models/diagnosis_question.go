@@ -7,5 +7,6 @@ type DiagnosisQuestion struct {
   Type        string                    `json:"type"`
 	IsValid     bool                      `json:"is_valid"`
 	DiagnosisID int                       `json:"diagnosis_id"`
+	DiagnosisHeaderID int                 `json:"diagnosis_id"`
 	Choices     []DiagnosisQuestionChoice `json:"choices"`
 }
