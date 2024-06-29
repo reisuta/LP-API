@@ -27,7 +27,6 @@ services:
       - db
     volumes:
       - .:/app
-    command: ["go", "run", "main.go"]
 
 volumes:
   db_data:
