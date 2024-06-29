@@ -21,7 +21,7 @@ func SaveDiagnosisAnswer(c echo.Context) error {
 	}
 
 	_, err := config.DB.Exec(
-		"INSERT INTO diagnoses_answers (title, point, question_id) VALUES (?, ?, ?)",
+		"INSERT INTO diagnoses_answers (title, point, diagnosis_question_id) VALUES (?, ?, ?)",
 		req.Title, req.Point, req.QuestionID,
 	)
 	if err != nil {

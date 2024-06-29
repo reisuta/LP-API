@@ -22,43 +22,62 @@ func GetDiagnosis(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching diagnosis", "error": err.Error()})
 	}
 
-	// Get the questions
-	questionsRows, err := config.DB.Query("SELECT id, title, weighting, type, is_valid, diagnosis_id FROM diagnoses_questions WHERE diagnosis_id = ?", diagnosisID)
+	// Get the headers
+	headerRows, err := config.DB.Query("SELECT id, title, diagnosis_id FROM diagnoses_headers WHERE diagnosis_id = ?", diagnosisID)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching questions", "error": err.Error()})
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching headers", "error": err.Error()})
 	}
-	defer questionsRows.Close()
+	defer headerRows.Close()
 
-	var questions []models.DiagnosisQuestion
-	for questionsRows.Next() {
-		var question models.DiagnosisQuestion
-		err := questionsRows.Scan(&question.ID, &question.Title, &question.Weighting, &question.Type, &question.IsValid, &question.DiagnosisID)
+	var headers []models.DiagnosisHeader
+	for headerRows.Next() {
+		var header models.DiagnosisHeader
+		err := headerRows.Scan(&header.ID, &header.Title, &header.DiagnosisID)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error scanning question", "error": err.Error()})
+			return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error scanning header", "error": err.Error()})
 		}
 
-		// Get the choices for each question
-		choicesRows, err := config.DB.Query("SELECT id, title, point, is_valid, question_id FROM diagnoses_questions_choices WHERE question_id = ?", question.ID)
+		// Get the questions for each header
+		questionsRows, err := config.DB.Query("SELECT id, title, weighting, type, is_valid, diagnosis_id, diagnosis_header_id FROM diagnoses_questions WHERE diagnosis_header_id = ?", header.ID)
 		if err != nil {
-			return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching choices", "error": err.Error()})
+			return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching questions", "error": err.Error()})
 		}
-		defer choicesRows.Close()
+		defer questionsRows.Close()
 
-		var choices []models.DiagnosisQuestionChoice
-		for choicesRows.Next() {
-			var choice models.DiagnosisQuestionChoice
-			err := choicesRows.Scan(&choice.ID, &choice.Title, &choice.Point, &choice.IsValid, &choice.QuestionID)
+		var questions []models.DiagnosisQuestion
+		for questionsRows.Next() {
+			var question models.DiagnosisQuestion
+			err := questionsRows.Scan(&question.ID, &question.Title, &question.Weighting, &question.Type, &question.IsValid, &question.DiagnosisID, &question.DiagnosisHeaderID)
 			if err != nil {
-				return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error scanning choice", "error": err.Error()})
+				return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error scanning question", "error": err.Error()})
 			}
-			choices = append(choices, choice)
+
+			// Get the choices for each question
+			choicesRows, err := config.DB.Query("SELECT id, title, point, is_valid, diagnosis_question_id FROM diagnoses_questions_choices WHERE diagnosis_question_id = ?", question.ID)
+			if err != nil {
+				return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error fetching choices", "error": err.Error()})
+			}
+			defer choicesRows.Close()
+
+			var choices []models.DiagnosisQuestionChoice
+			for choicesRows.Next() {
+				var choice models.DiagnosisQuestionChoice
+				err := choicesRows.Scan(&choice.ID, &choice.Title, &choice.Point, &choice.IsValid, &choice.QuestionID)
+				if err != nil {
+					return c.JSON(http.StatusInternalServerError, map[string]string{"message": "Error scanning choice", "error": err.Error()})
+				}
+				choices = append(choices, choice)
+			}
+
+			question.Choices = choices
+			questions = append(questions, question)
 		}
 
-		question.Choices = choices
-		questions = append(questions, question)
+		header.Questions = questions
+		headers = append(headers, header)
 	}
 
-	diagnosis.Questions = questions
+	diagnosis.Headers = headers
 
 	return c.JSON(http.StatusOK, diagnosis)
 }
