@@ -2,11 +2,10 @@ package handlers
 
 import (
 	"database/sql"
+	"github.com/labstack/echo/v4"
 	"lp-api/config"
 	"lp-api/models"
 	"net/http"
-
-	"github.com/labstack/echo/v4"
 )
 
 func GetDiagnosis(c echo.Context) error {

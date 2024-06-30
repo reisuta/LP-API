@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"net/http"
-	"lp-api/config"
 
 	"github.com/labstack/echo/v4"
+	"lp-api/config"
 )
 
 type DiagnosisAnswerRequest struct {
@@ -15,7 +15,7 @@ type DiagnosisAnswerRequest struct {
 	ChoiceID   int    `json:"choice_id"`
 }
 
-// SaveDiagnosisAnswers saves multiple diagnosis answers to the database
+// SaveDiagnosisAnswers saves multiple diagnosis answers to the database.
 func SaveDiagnosisAnswer(c echo.Context) error {
 	var reqs []DiagnosisAnswerRequest
 	if err := c.Bind(&reqs); err != nil {

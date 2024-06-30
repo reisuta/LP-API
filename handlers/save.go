@@ -1,15 +1,14 @@
 package handlers
 
 import (
+	"github.com/labstack/echo/v4"
 	"lp-api/config"
 	"net/http"
-
-	"github.com/labstack/echo/v4"
 )
 
 type SaveRequest struct {
-	Name  string `json:"name" form:"name"`
-	Email string `json:"email" form:"email"`
+	Name  string `form:"name"  json:"name"`
+	Email string `form:"email" json:"email"`
 }
 
 func SaveData(c echo.Context) error {

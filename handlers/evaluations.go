@@ -3,13 +3,13 @@ package handlers
 import (
 	"database/sql"
 	"net/http"
-	"lp-api/config"
-	"lp-api/models"
 
 	"github.com/labstack/echo/v4"
+	"lp-api/config"
+	"lp-api/models"
 )
 
-// GetEvaluation retrieves an evaluation by its ID
+// GetEvaluation retrieves an evaluation by its ID.
 func GetEvaluation(c echo.Context) error {
 	evaluationID := c.Param("id")
 	var evaluation models.Evaluation

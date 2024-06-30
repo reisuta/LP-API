@@ -1,0 +1,31 @@
+run:
+  timeout: 5m
+  tests: false
+
+linters:
+  enable-all: true
+  disable:
+    - gomnd
+    - execinquery
+    - depguard
+    - varnamelen
+    - wsl
+    - gofmt
+    - wrapcheck
+    - intrange
+    - govet
+    - lll
+    - funlen
+    - gci
+    - gofumpt
+    - goimports
+    - revive
+    - cyclop
+    - err113
+    - exhaustruct
+    - errorlint
+    - gochecknoglobals
+    - mnd
+    - nlreturn
+    - rowserrcheck
+    - tagliatelle
