@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"time"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -21,7 +22,7 @@ func InitDB() {
 		os.Getenv("DB_NAME"),
 	)
 
-  for i := 0; i < 6; i++ {
+	for i := 0; i < 6; i++ {
 		DB, err = sql.Open("mysql", dataSourceName)
 		if err == nil {
 			err = DB.Ping()
