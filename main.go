@@ -4,9 +4,9 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"lp-api/config"
-  "lp-api/handlers"
 	"log"
+	"lp-api/config"
+	"lp-api/handlers"
 )
 
 func main() {

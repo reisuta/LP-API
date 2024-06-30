@@ -1,9 +1,9 @@
 package handlers
 
 import (
+	"github.com/labstack/echo/v4"
 	"lp-api/config"
 	"net/http"
-	"github.com/labstack/echo/v4"
 )
 
 type SaveRequest struct {
